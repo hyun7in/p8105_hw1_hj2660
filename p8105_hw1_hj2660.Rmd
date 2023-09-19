@@ -5,26 +5,52 @@ date: "2023-09-18"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+
+```{r setup, include = FALSE}
+library(moderndive)
+library(ggplot2)
 ```
 
-## R Markdown
+##### load early_january_weather dataset
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
+```{r}
+data("early_january_weather")
 ```
 
-## Including Plots
+##### names/values of important variables in early_january_weather
 
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r}
+get_all_vars(early_january_weather)
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+```{r}
+nrow(early_january_weather)
+```
+
+
+```{r}
+ncol(early_january_weather)
+```
+
+ 
+```{r}
+temp <- early_january_weather$temp 
+```
+
+```{r}
+mean(temp)
+```
+
+```{r}
+sd(temp)
+```
+
+##### make a scatterplot 
+
+```{r}
+ggplot(data = early_january_weather, aes (x = time_hour, y = temp, color = humid)) + geom_point()
+ggsave("temp vs time_hour by humid.png")
+```
+
+
