@@ -7,50 +7,82 @@ output: html_document
 
 
 ```{r setup, include = FALSE}
+library(tidyverse)
 library(moderndive)
 library(ggplot2)
 ```
 
-##### load early_january_weather dataset
+### Problem 1
+
+Install the **moderndive** package and load **early_january_weather** dataset.
 
 ```{r}
 data("early_january_weather")
 ```
 
-##### names/values of important variables in early_january_weather
 
-```{r}
-get_all_vars(early_january_weather)
+
+```{r, echo=FALSE, results='hide'}
+colnames(early_january_weather)
 ```
 
+The names of variables in early_january_weather: *origin, year, month, day, hour, temp, dewp, humid, wind_dir, wind_speed, wind_gust, precip, pressure, visib, time_hour*
 
-```{r}
+```{r, echo=FALSE, results='hide'}
 nrow(early_january_weather)
 ```
 
-
-```{r}
+```{r, echo=FALSE, results='hide'}
 ncol(early_january_weather)
 ```
 
- 
-```{r}
+The dataset early_january_weather includes **358 rows** and **15 columns**. 
+
+```{r, echo=FALSE}
 temp <- early_january_weather$temp 
 ```
 
-```{r}
+
+```{r, echo=FALSE, results='hide'}
 mean(temp)
 ```
 
-```{r}
+The mean temperature is **39.58212**.
+```{r, echo=FALSE, results='hide'}
 sd(temp)
 ```
 
-##### make a scatterplot 
+#### Scatterplot of Temperature vs Time_Hour
 
-```{r}
-ggplot(data = early_january_weather, aes (x = time_hour, y = temp, color = humid)) + geom_point()
+```{r, echo=FALSE, results='hide',message=FALSE}
+ggplot(data = early_january_weather, aes (x = time_hour, y = temp, color = humid)) + geom_point() 
 ggsave("temp vs time_hour by humid.png")
 ```
+The scatterplot shows how temperature increases as time_hour increases, with gradient colors representing humidity levels. Patterns in the scatterplot shows positive correlations between temperature, time_hour, and humidity.
+
+### Problem 2
+
+Create a data frame
+
+```{r, echo=FALSE, results='hide'}
+my_df <- data.frame(
+  random_numeric = rnorm(10), # Random sample of size 10 from a Normal distribution
+  logical_vector = rnorm(10) > 0, # Logical vector indicating if elements are greater than 0
+  character_vector = c("A", "B", "C", "D", "E", "F", "G", "H", "I", "J"), # Character vector
+  factor_vector = factor(sample(1:3, 10, replace = TRUE), levels = c(1, 2, 3))  # Factor vector with 3 levels
+)
+```
+
+##### Calculate the mean of each variable
+```{r, echo=FALSE, results='hide', warning=FALSE}
+mean(pull(select(my_df, random_numeric)))
+mean(pull(select(my_df, logical_vector)))
+mean(pull(select(my_df, character_vector)))
+mean(pull(select(my_df, factor_vector)))
+```
+Mean of **random_numeric** is 0.13001. <br>
+Mean of **logical_vector** is 0.5. <br>
+Mean of **character_vector** and **factor_vector** does not work because these are not numeric or logical.
+
 
 
