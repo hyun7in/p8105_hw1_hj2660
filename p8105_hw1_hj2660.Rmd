@@ -14,12 +14,11 @@ library(ggplot2)
 
 ### Problem 1
 
-Install the **moderndive** package and load **early_january_weather** dataset.
+##### Install the **moderndive** package and load **early_january_weather** dataset.
 
 ```{r}
 data("early_january_weather")
 ```
-
 
 
 ```{r, echo=FALSE, results='hide'}
@@ -40,17 +39,22 @@ The dataset early_january_weather includes **358 rows** and **15 columns**.
 
 ```{r, echo=FALSE}
 temp <- early_january_weather$temp 
+time_hour <- early_january_weather$time_hour
+humid <- early_january_weather$humid
 ```
 
 
 ```{r, echo=FALSE, results='hide'}
 mean(temp)
+sd(temp)
+median(time_hour)
+mean(humid)
+sd(humid)
 ```
 
-The mean temperature is **39.58212**.
-```{r, echo=FALSE, results='hide'}
-sd(temp)
-```
+The mean temperature is **39.58212**, with a standard deviation of **7.058637**.<br>
+The median time_hour is **2013-01-08 12:30:00 EST**. <br>
+The mean humid is **65.4767**, with a standard deviation of **18.9453**. <br>
 
 #### Scatterplot of Temperature vs Time_Hour
 
@@ -62,9 +66,9 @@ The scatterplot shows how temperature increases as time_hour increases, with gra
 
 ### Problem 2
 
-Create a data frame
+##### Create a data frame
 
-```{r, echo=FALSE, results='hide'}
+```{r}
 my_df <- data.frame(
   random_numeric = rnorm(10), # Random sample of size 10 from a Normal distribution
   logical_vector = rnorm(10) > 0, # Logical vector indicating if elements are greater than 0
@@ -84,5 +88,17 @@ Mean of **random_numeric** is 0.13001. <br>
 Mean of **logical_vector** is 0.5. <br>
 Mean of **character_vector** and **factor_vector** does not work because these are not numeric or logical.
 
+##### Use 'as.numeric' to the logical, character, and factor variables
 
+
+```{r, warning=FALSE}
+my_df <- transform(my_df,
+                   logical_vector = as.numeric(logical_vector),
+                   character_vector = as.numeric(character_vector),
+                   factor_vector = as.numeric(factor_vector))
+```
+
+The warning message "NAs introduced by coercion" occurs when attempting to convert non-numeric data into numeric format using the as.numeric function. <br>
+Data that I tried to convert to numeric are non-numeric data (character_vector and factor_vector), so the values in those variables could not be converted to numeric, so they were replaced with NA values. <br>
+This explains why I can't calculate the mean of character_vector and factor_vector, because they are non-numeric data.
 
